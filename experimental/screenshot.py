@@ -2,6 +2,7 @@ import time
 import tkinter  # library for canvas & UI
 import pyautogui  # library for screenshots
 from PIL import Image, ImageTk   # work with screenshot
+# from tkinter import *  # library for canvas
 
 # window object and settings
 window = tkinter.Tk()
@@ -26,6 +27,7 @@ canvas = tkinter.Canvas(window)
 canvas.pack()
 
 scr = pyautogui.screenshot()
+# scr.save('scr.png')
 time.sleep(1)
 
 # Bind the <Configure> event to the window_position function
