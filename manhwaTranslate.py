@@ -1,7 +1,13 @@
+import os
+from dotenv import load_dotenv
 import time
 import tkinter  # user interface
 import pyautogui  # screenshot
+from googletrans import Translator  # pip install googletrans==4.0.0rc1 regular version was causing issues for some reason
 from PIL import Image, ImageTk  # work with screenshot
+from pytesseract import pytesseract
+
+translator = Translator()
 
 # window object and settings
 window = tkinter.Tk()
@@ -11,6 +17,27 @@ window.title('comicTranslate')
 img = None
 cur_cropped_img = None
 text = None
+
+# PATH TO YOUR TESSERACT !!! IMPORTANT !!!
+pytesseract.tesseract_cmd = os.getenv("TESSERACT_PATH")
+pytesseract_config = r'--psm 3 --oem 3'
+
+
+def image_to_text():
+    global cur_cropped_img
+    global text
+    if cur_cropped_img is not None:
+        img_text = pytesseract.image_to_string(cur_cropped_img, config=pytesseract_config, lang='kor')
+        img_text = img_text.replace('\n', ' ')     # in comic books they often use line breaks
+        img_text = img_text.strip()
+        print('img text: ' + img_text)
+        translated_text = 'Try again'
+        if img_text != '':
+            translated_text = translator.translate(text=img_text, dest="en").text
+            print('translated: ' + translated_text)
+        canvas.delete("all")
+        text = 'Insert text'
+        canvas.create_text(100, 50, text=translated_text)
 
 def take_screenshot():
     global img
@@ -36,6 +63,8 @@ def crop_screenshot(event=None):
         canvas.image = cropped_img
 
 select_area_btn = tkinter.Button(window, text='Select Img area', command=take_screenshot)
+select_area_btn.pack()
+select_area_btn = tkinter.Button(window, text='Translate', command=image_to_text)
 select_area_btn.pack()
 
 canvas = tkinter.Canvas(window)
