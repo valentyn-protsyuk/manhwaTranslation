@@ -23,16 +23,17 @@ def take_screenshot():
 def crop_screenshot(event=None):
     global cur_cropped_img
 
-    dimensions = window.geometry()  # gets string with format: WxH+X+Y
-    wh, x, y = dimensions.split('+')
-    w, h = wh.split('x')
+    if img is not None:
+        dimensions = window.geometry()  # gets string with format: WxH+X+Y
+        wh, x, y = dimensions.split('+')
+        w, h = wh.split('x')
 
-    cropbox = (int(x),int(y), int(x) + int(w), int(y) + int(h)) 
-    cropped_img = img.crop(box=cropbox)
-    cur_cropped_img = cropped_img
-    cropped_img = ImageTk.PhotoImage(cropped_img)
-    canvas.create_image(0, 0, anchor='nw', image=cropped_img)
-    canvas.image = cropped_img
+        cropbox = (int(x),int(y), int(x) + int(w), int(y) + int(h)) 
+        cropped_img = img.crop(box=cropbox)
+        cur_cropped_img = cropped_img
+        cropped_img = ImageTk.PhotoImage(cropped_img)
+        canvas.create_image(0, 0, anchor='nw', image=cropped_img)
+        canvas.image = cropped_img
 
 select_area_btn = tkinter.Button(window, text='Select Img area', command=take_screenshot)
 select_area_btn.pack()
