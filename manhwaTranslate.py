@@ -1,5 +1,3 @@
-import os
-from dotenv import load_dotenv
 import time
 import tkinter  # user interface
 import pyautogui  # screenshot
@@ -19,7 +17,7 @@ cur_cropped_img = None
 text = None
 
 # PATH TO YOUR TESSERACT !!! IMPORTANT !!!
-pytesseract.tesseract_cmd = os.getenv("TESSERACT_PATH")
+pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 pytesseract_config = r'--psm 3 --oem 3'
 
 
